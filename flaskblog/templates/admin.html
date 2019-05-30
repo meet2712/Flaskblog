@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+    <h1>Admin Panel</h1>
+     <table border = 1>
+           <thead>
+           <td>id</td>
+           <td>username</td>
+           <td>email</td>
+           <td>image_file</td>
+
+           </thead>
+
+         {% for User in user %}
+           <tr>
+               <td>{{ User.id }}</td>
+               <td>{{ User.username }}</td>
+               <td>{{ User.email }}</td>
+               <td>{{ User.image_file }}</td>
+
+           </tr>
+            {% endfor %}
+       </table>
+    </div>
+{% endblock content %}
