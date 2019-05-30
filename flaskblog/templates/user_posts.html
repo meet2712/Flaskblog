@@ -28,12 +28,15 @@
               {% endif %}
             {% endfor %}
         </div>
-                <div class="col-md-15">
+    <br><br>
+
+        <div class="col-md-4">
+        <br>
                     {% if user.is_authenticated %}
                         <div class="content-section">
                             <h3>Account Info</h3>
                             <div class="media">
-                                <img class="img-thumbnail" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
+                                <img class="rounded-circle" src="{{ url_for('static', filename='profile_pics/' + user.image_file) }}">
                             </div>
                         <br>
                         <br>
