@@ -1,25 +1,81 @@
 {% extends "layout.html" %}
 {% block content %}
+    <style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+    <div>
+    <h1>ADMIN PANEL</h1>
+    <br>
+    <h4>Note: Before Deleting the User Please delete all the post related to that specific User.</h4>
     <div class="content-section">
-    <h1>Admin Panel</h1>
+    <h1>User Information</h1>
+    <br>
      <table border = 1>
            <thead>
-           <td>id</td>
-           <td>username</td>
-           <td>email</td>
-           <td>image_file</td>
+           <td>Id</td>
+           <td>Username</td>
+           <td>Email</td>
+           <td>Image File</td>
+           <td>Options</td>
+
 
            </thead>
 
          {% for User in user %}
-           <tr>
+
                <td>{{ User.id }}</td>
                <td>{{ User.username }}</td>
                <td>{{ User.email }}</td>
                <td>{{ User.image_file }}</td>
+                <td align='center'><a class="nav-item nav-link" href={{ url_for('main.delete_user', user_id=User.id) }}>Delete User</a></td>
 
            </tr>
             {% endfor %}
        </table>
+    </div>
+    <div class="content-section">
+    <h1>User Post</h1>
+    <br>
+     <table border = 1>
+           <thead>
+           <td>Id</td>
+           <td>Title</td>
+           <td>Date Posted</td>
+           <td>Content</td>
+           <td>User ID</td>
+           <td>Functions</td>
+
+
+           </thead>
+
+         {% for Post in post %}
+           <tr>
+               <td>{{ Post.id }}</td>
+               <td>{{ Post.title }}</td>
+               <td>{{ Post.date_posted }}</td>
+               <td>{{ Post.content }}</td>
+               <td>{{ Post.user_id }}</td>
+               <td align='center'><a class="nav-item nav-link" href={{ url_for('main.delete_post1', post_id1=Post.id) }}>Delete Post</a></td>
+
+
+           </tr>
+            {% endfor %}
+       </table>
+    </div>
     </div>
 {% endblock content %}

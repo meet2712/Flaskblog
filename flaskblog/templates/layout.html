@@ -17,6 +17,7 @@
     {% endif %}
 </head>
 <body>
+<div>
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
@@ -44,9 +45,11 @@
         </div>
       </nav>
     </header>
-    <main role="main" class="container">
-      <div class="row">
 
+    <main role="main" class="container">
+
+      <div class="row">
+        <div>
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
               {% for category, message in messages %}
@@ -58,9 +61,9 @@
           {% endwith %}
           {% block content %}{% endblock %}
         </div>
+      </main>
 
 
-    </main>
 
 
     <!-- Optional JavaScript -->

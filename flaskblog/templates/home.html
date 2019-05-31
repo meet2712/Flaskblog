@@ -20,6 +20,14 @@
                       {% endif %}
                     {% endif %}
                 {{ post.likes.count() }} likes
+                <p>
+                 {% if post.comments[0] != NULL %}
+                    {% for comment in post.comments %}
+                        {{ comment }}
+                        <br>
+                    {% endfor %}
+                 {% endif %}
+                </p>
           </div>
         </article>
     {% endfor %}
