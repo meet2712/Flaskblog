@@ -2,6 +2,7 @@ from flask import render_template, request, Blueprint, redirect, url_for, flash
 from flaskblog.models import User, Post, Comment
 from flaskblog import db
 
+from flaskblog.posts.forms import AddCommentForm
 
 main = Blueprint('main', __name__)
 
@@ -11,7 +12,10 @@ main = Blueprint('main', __name__)
 def home():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
-    return render_template('home.html', posts=posts)
+    str = "select * from Comment order by path + 0 asc"
+    comments = (db.session.execute(str).fetchall())
+    print(comments)
+    return render_template('home.html', posts=posts, comments=comments, form=AddCommentForm())
 
 
 @main.route("/about")
@@ -28,8 +32,9 @@ def admin():
 def delete_post1(post_id1):
     post = Post.query.get_or_404(post_id1)
     post1 = Comment.query.get_or_404(post_id1)
+    print(post1)
     db.session.delete(post1)
-    db.session.delete(post)
+    #db.session.delete(post)
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.admin'))
@@ -44,3 +49,5 @@ def delete_user(user_id):
     db.session.commit()
     flash('User has been deleted!', 'success')
     return redirect(url_for('main.admin'))
+
+

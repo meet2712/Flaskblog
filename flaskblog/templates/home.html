@@ -2,17 +2,17 @@
 {% block content %}
     <div class="row">
         <div class="col-md-8">
-    {% for post in posts.items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          {% if current_user.is_authenticated %}
+            {% for post in posts.items %}
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                    </div>
+                    <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
+                    <p class="article-content">{{ post.content | safe}}</p>
+                     {% if current_user.is_authenticated %}
                       {% if current_user.has_liked_post(post) %}
                         <a href="{{ url_for('users.like_action', post_id=post.id, action='unlike') }}">Unlike</a>
                       {% else %}
@@ -20,30 +20,33 @@
                       {% endif %}
                     {% endif %}
                 {{ post.likes.count() }} likes
-                <p>
-                 {% if post.comments[0] != NULL %}
-                    {% for comment in post.comments %}
-                        {{ comment }}
-                        <br>
-                    {% endfor %}
-                 {% endif %}
+             <p>
+               <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.comment_post', post_id = post.id) }}">Comment</a><br>
+
+                {% for comment in comments %}
+                    {% if comment.post_id==post.id %}
+                    {{ comment[6] }} : &nbsp {{ comment[1] }} &nbsp <a href="{{ url_for('posts.reply_comment', post_id=post.id, comment_id=comment.id) }}">Reply</a>
+
+                    <br>
+                    {% endif %}
+                {% endfor %}
                 </p>
-          </div>
-        </article>
-    {% endfor %}
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if posts.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
-    </div>
-        <div class="col-md-4">
+                </div>
+            </article>
+            {% endfor %}
+            {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                {% if page_num %}
+                    {% if posts.page == page_num %}
+                        <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                        <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                {% else %}
+                ...
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-20">
             {% if current_user.is_authenticated %}
                 <div class="content-section">
                     <h3>Account Info</h3>
@@ -56,11 +59,9 @@
                         <ul class="list-group">
                             <li class="list-group-item list-group-item-light">{{ current_user.username }}</li>
                             <li class="list-group-item list-group-item-light">{{ current_user.email }}</li>
-                            <li class="list-group-item list-group-item-light">{{ posts.total }} posts</li>
                         </ul>
                     </div>
                     {% endif %}
                 </div>
         </div>
-    </div>
 {% endblock content %}

@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flaskblog.config import Config
+from wtf_tinymce import wtf_tinymce
 
 
 db = SQLAlchemy()
@@ -22,6 +23,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    wtf_tinymce.init_app(app)
 
     from flaskblog.users.routes import users
     from flaskblog.posts.routes import posts

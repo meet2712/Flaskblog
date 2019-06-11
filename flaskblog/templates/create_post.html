@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
+    {% block head %}
+    <script src="https://cdn.tiny.cloud/1/f6jk23c9wmmb990aatig1bn29b9pdechiycehb52y6caadhi/tinymce/5/tinymce.min.js"></script>
+    {% endblock %}
 <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
@@ -30,6 +33,16 @@
                 {% else %}
                     {{ form.content(class="form-control form-control-lg") }}
                 {% endif %}
+            <script>
+            tinymce.init({
+             selector: 'textarea',
+             plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist media mediaembed pageembed permanentpen powerpaste tinycomments tinydrive tinymcespellchecker',
+             toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter insertfile pageembed permanentpen',
+             toolbar_drawer: 'floating',
+             tinycomments_mode: 'embedded',
+             tinycomments_author: 'Author name'
+         });
+         </script>
             </div>
         </fieldset>
         <div class="form-group">
