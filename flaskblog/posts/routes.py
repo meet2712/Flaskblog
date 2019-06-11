@@ -71,7 +71,7 @@ def comment_post(post_id):
             result2 = (db.session.execute(str2).fetchall())
             for r in result2:
                 pid = r[0]
-            print(pid)
+           # print(pid)
             str3 = "update comment set path = {} where id = {}".format(pid, pid)
             db.session.execute(str3)
             db.session.commit()
@@ -95,7 +95,7 @@ def reply_comment(post_id,comment_id):
             db.session.add(comment)
             db.session.commit()
             child = Comment.query.get(comment.id)
-            print(child)
+           # print(child)
             child.path = str(parent.path)+'.'+str(child.id)
             db.session.commit()
             flash("Your reply has been added to the post", "success")
